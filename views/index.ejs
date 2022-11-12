@@ -9,12 +9,14 @@
         <h1>Book Recommendations</h1>
         <ul>
             <% for(let i = 0; i < books.length; i++) { %>
-                <span> <% books[i].book %> </span>
-                <span> <% books[i].author %> </span>
-                <span> <% books[i].likes %> </span>
+                <li class="book">
+                    <span> <%= books[i].bookName %> </span>
+                    <span> <%= books[i].bookAuthor %> </span>
+                    <span> <%= books[i].likes %> </span>
+                </li>
             <% } %>
         </ul>
-        <form action="books" method="POST">
+        <form action="/" method="POST">
             <input type="text" placeholder="Book" name="book">
             <input type="text" placeholder="Author" name="author">
             <input type="submit">
