@@ -1,8 +1,8 @@
 const express = require('express')
 const app = express()
-const cors = require('cors')
 const MongoClient = require('mongodb').MongoClient
 const PORT = 8000
+require('dotenv').config()
 
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
@@ -10,7 +10,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 let db,
-    dbConnectionStr = 'mongodb+srv://otoronis:weonline@cluster0.vqidi7t.mongodb.net/?retryWrites=true&w=majority',
+    dbConnectionStr = process.env.DB_STRING,
     dbName = 'book-recommendations'
 
 MongoClient.connect(dbConnectionStr, {useUnifiedTopology: true})
