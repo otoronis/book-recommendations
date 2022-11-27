@@ -28,8 +28,22 @@ app.get('/', (req, res) => {
     
 })
 
-app.put('/', (req, res) => {
-    
+app.put('/addLike', (req, res) => {
+    db.collection('books').updateOne(
+        {bookName: req.body.bookN, bookAuthor: req.body.authorN, likes: req.body.likesN},
+        { $set: {
+            likes: req.body.likesN + 1
+        }},
+        {
+            sort: {_id: -1},
+            upsert: true
+        }
+    )
+    .then(result => {
+        console.log('Like added')
+        res.json('Like added')
+    })
+    .catch(error => console.error(error))
 })
 
 app.post('/', (req, res) => {
