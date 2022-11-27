@@ -4,11 +4,6 @@ const MongoClient = require('mongodb').MongoClient
 const PORT = 8000
 require('dotenv').config()
 
-app.set('view engine', 'ejs')
-app.use(express.static('public'))
-app.use(express.urlencoded({ extended: true }))
-app.use(express.json())
-
 let db,
     dbConnectionStr = process.env.DB_STRING,
     dbName = 'book-recommendations'
@@ -19,6 +14,11 @@ MongoClient.connect(dbConnectionStr, {useUnifiedTopology: true})
         db = client.db(dbName)
     })
 
+app.set('view engine', 'ejs')
+app.use(express.static('public'))
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
+    
 app.get('/', (req, res) => {
     db.collection('books').find().toArray()
     .then(data => {
@@ -41,8 +41,13 @@ app.post('/', (req, res) => {
     })
 })
 
-app.delete('/', (req, res) => {
-    
+app.delete('/deleteBook', (req, res) => {
+    db.collection('books').deleteOne({bookName: req.body.bookN, bookAuthor: req.body.authorN})
+    .then(result => {
+        console.log('Book deleted')
+        res.json('Book deleted')
+    })
+    .catch(error => console.error(error))
 })
 
 app.listen(process.env.PORT || PORT, () => {
