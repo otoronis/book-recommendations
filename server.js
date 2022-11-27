@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
     
 app.get('/', (req, res) => {
-    db.collection('books').find().toArray()
+    db.collection('books').find().sort({likes: -1}).toArray()
     .then(data => {
         res.render('index.ejs', { books: data })
     })
